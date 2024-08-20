@@ -15,6 +15,8 @@ import { useNavigate } from 'react-router-dom';
 import FullPageBackdrop from '../../shared/FullPageBackdrop';
 import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Employee, Media, QR } from '../../../libs/models/qr';
+import VCardPreview from './VCardPreview';
+import MediaPreview from './MediaPreview';
 
 interface QRCodeFormProps {
   initialData?: Partial<QR>;
@@ -107,7 +109,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
   return (
     <>
       {loadingContent}
-      <div className='flex gap-8'>
+      <div className='flex gap-2'>
         <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-full p-8 rounded-md'>
           <IInput
             register={register}
@@ -155,9 +157,35 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
           </div>
         </form>
 
-        <div>
-          <h2>Preview</h2>
-          <pre>{JSON.stringify(watchFields, null, 2)}</pre>
+        <div className='w-96'>
+          {
+            watchFields.qrType === QRType.V_CARD &&
+            <VCardPreview
+              employee={{
+                firstName: watchFields.vCard?.firstName as string,
+                lastName: watchFields.vCard?.lastName as string,
+                address: watchFields.vCard?.address as string,
+                company: watchFields.vCard?.company as string,
+                email: watchFields.vCard?.email as string,
+                job: watchFields.vCard?.job as string,
+                phone: watchFields.vCard?.phone as string,
+                summary: watchFields.vCard?.summary as string
+              }}
+            />
+          }
+          {
+            (watchFields.qrType === QRType.PDF || watchFields.qrType === QRType.IMAGE) &&
+            <MediaPreview
+              data={{
+                company: watchFields.media?.company as string,
+                title: watchFields.media?.title as string,
+                description: watchFields.media?.description as string,
+                media: !!initialData ? (initialData.data as Media).media : { key: "", url: "" }
+              }}
+              file={!!watchFields.media?.file ? watchFields.media.file[0] : null}
+              qrType={watchFields.qrType}
+            />
+          }
         </div>
       </div>
     </>
