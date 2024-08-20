@@ -6,8 +6,9 @@ import LoadingSpinner from "../../components/shared/LoadingSpinner";
 import { HTTPResponseError } from "../../utils/error";
 import QrList from "../../components/features/qr/QrList";
 import Button from "../../components/form/Button";
-import { BUTTON_TYPE } from "../../libs/constants";
+import { BUTTON_TYPE, RoutesPath } from "../../libs/constants";
 import { IoMenu } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 const AllQrPage = () => {
   useChangeAppTitle("All QRs");
@@ -34,7 +35,9 @@ const AllQrPage = () => {
           <IoMenu />
           <h3>Total QR Code ({meta.total})</h3>
         </div>
-        <Button label="Create QR Code" type={BUTTON_TYPE.BUTTON} />
+        <Link to={`/${RoutesPath.CREATE}`}>
+          <Button label="Create QR Code" type={BUTTON_TYPE.BUTTON} />
+        </Link>
       </div>
       <QrList list={qrData} limit={limit} meta={meta} page={page} setLimit={setLimit} setPage={setPage} />
     </>

@@ -7,6 +7,9 @@ import AuthPage from "./pages/auth/AuthPage";
 import AllQrPage from "./pages/QR/AllQrPage";
 import ActiveQRPage from "./pages/QR/ActiveQRPage";
 import PauseQRPage from "./pages/QR/PauseQRPage";
+import CreateQRPage from "./pages/QR/CreateQRPage";
+import QRDetailPage from "./pages/QR/QRDetailPage";
+import EditQrPage from "./pages/QR/EditQrPage";
 
 function App() {
   return (
@@ -20,8 +23,11 @@ function App() {
               element={<AdminPage />}
             />
             <Route path={RoutesPath.ALL} element={<AllQrPage />} />
+            <Route path={`${RoutesPath.QR}/${RoutesPath.ID}`} element={<QRDetailPage />} />
             <Route path={RoutesPath.ACTIVE} element={<ActiveQRPage />} />
             <Route path={RoutesPath.PAUSED} element={<PauseQRPage />} />
+            <Route path={RoutesPath.CREATE} element={<CreateQRPage />} />
+            <Route path={`${RoutesPath.EIDT}/${RoutesPath.ID}`} element={<EditQrPage />} />
           </Route>
           <Route path={RoutesPath.AUTH} element={<AuthPage />}></Route>
         </Routes>

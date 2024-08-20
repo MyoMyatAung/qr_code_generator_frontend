@@ -7,6 +7,7 @@ import { FaArrowRight } from "react-icons/fa6";
 
 import { dateFormatter } from '../../../utils/dateFormatter';
 import { Link } from 'react-router-dom';
+import { RoutesPath } from '../../../libs/constants';
 
 type Props = {
   item: QR
@@ -14,7 +15,7 @@ type Props = {
 
 const QrListItem: React.FC<Props> = ({ item }) => {
   return (
-    <div className='flex items-center w-full border bg-white px-4 py-2'>
+    <div className='flex items-center w-full border bg-white px-4 py-2 mt-2'>
       <div className='flex-1'>
         <div className='flex items-center gap-2 text-2xl font-semibold text-gray-600 my-2'> <BsFillPersonVcardFill /> <h1>{item.qrName}</h1></div>
         <div className='flex items-center gap-2 text-sm text-gray-600 my-2'> <CiLink className='text-2xl' /> <a href={`${process.env.REACT_APP_APP_URL}/${item.qrId}`} rel="noreferrer" target='_blank'>http://localhost:3000/{item.qrId}</a></div>
@@ -25,7 +26,7 @@ const QrListItem: React.FC<Props> = ({ item }) => {
         <div>
           <h3 className='text-2xl'>{item.scanCount}</h3>
           <p className='text-sm text-gray-600'>Scans</p>
-          <Link to="/" className='flex items-center gap-2 text-lg font-semibold text-primary mt-2'>Detail <FaArrowRight /></Link>
+          <Link to={`/${RoutesPath.QR}/${item._id}`} className='flex items-center gap-2 text-lg font-semibold text-primary mt-2'>Detail <FaArrowRight /></Link>
         </div>
         <div>
           <img src={`${process.env.REACT_APP_API_URL}/qrcode/${item.qrcode.key}`} alt={item.qrName} />

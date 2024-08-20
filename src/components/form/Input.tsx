@@ -25,6 +25,7 @@ export const IInput: React.FC<IInputProps> = ({ id, name, label, register, place
             disabled={disabled}
             placeholder={placeHolder}
             id={id}
+            required={required}
             {...register(name, { required, valueAsNumber: type === "number" })}
             className={`bg-gray-50 border ${!!error ? "border-red-300" : "border-gray-300 mb-4"} text-gray-600 text-sm rounded-md focus:outline-none active:outline-none block w-full p-2 ${disabled ? "cursor-not-allowed" : ""}`}
         />

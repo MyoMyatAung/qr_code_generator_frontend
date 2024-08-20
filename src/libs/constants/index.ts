@@ -4,7 +4,10 @@ export enum RoutesPath {
   ALL = "all",
   ACTIVE = "active",
   PAUSED = "paused",
+  CREATE = "create-qr",
+  EIDT = "edit-qr",
   ID = ":id",
+  QR = "qr",
 }
 
 export enum RoutesTitle {
