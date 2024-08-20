@@ -8,6 +8,7 @@ export enum RoutesPath {
   EIDT = "edit-qr",
   ID = ":id",
   QR = "qr",
+  SCAN = "scan",
 }
 
 export enum RoutesTitle {

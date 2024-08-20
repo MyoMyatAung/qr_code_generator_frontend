@@ -10,6 +10,7 @@ import PauseQRPage from "./pages/QR/PauseQRPage";
 import CreateQRPage from "./pages/QR/CreateQRPage";
 import QRDetailPage from "./pages/QR/QRDetailPage";
 import EditQrPage from "./pages/QR/EditQrPage";
+import ScanPage from "./pages/ScanPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path={`${RoutesPath.EIDT}/${RoutesPath.ID}`} element={<EditQrPage />} />
           </Route>
           <Route path={RoutesPath.AUTH} element={<AuthPage />}></Route>
+          <Route path={RoutesPath.ID} element={<ScanPage />} />
         </Routes>
       </BrowserRouter>
     </>

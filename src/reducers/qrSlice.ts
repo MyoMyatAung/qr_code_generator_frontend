@@ -52,6 +52,17 @@ export const extendedQRApiSlice = apiSlice.injectEndpoints({
         },
         providesTags: [REDUX_TOOLKIT_TAGS.QR],
       }),
+      getQrByQrId: builder.query<IResponse<QR>, string>({
+        query: (ID) => {
+          return {
+            url: `${API_ENDPOINTS.QR}/qrId/${ID}`,
+            headers: {
+              "Content-Type": "application/json",
+            },
+          };
+        },
+        providesTags: [REDUX_TOOLKIT_TAGS.QR],
+      }),
       toggleQr: builder.mutation<IResponse<QR>, { id: string, data: { status: boolean } }>({
         query: (payload) => {
           return {
@@ -61,9 +72,18 @@ export const extendedQRApiSlice = apiSlice.injectEndpoints({
           };
         },
         invalidatesTags: [REDUX_TOOLKIT_TAGS.QR],
+      }),
+      scanQr: builder.mutation<IResponse<QR>, string>({
+        query: (payload) => {
+          return {
+            url: API_ENDPOINTS.QR + "/scan/" + payload,
+            method: HTTP_METHODS.PATCH,
+          };
+        },
+        invalidatesTags: [REDUX_TOOLKIT_TAGS.QR],
       })
     }
   }
 });
 
-export const { useGetQrsQuery, useCreateQrMutation, useGetQrByIdQuery, useUpdateQrMutation, useToggleQrMutation } = extendedQRApiSlice;
+export const { useGetQrsQuery, useCreateQrMutation, useGetQrByIdQuery, useGetQrByQrIdQuery, useUpdateQrMutation, useToggleQrMutation, useScanQrMutation } = extendedQRApiSlice;

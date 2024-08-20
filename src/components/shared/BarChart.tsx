@@ -7,10 +7,10 @@ type Props = {
 const IBarChart: React.FC<Props> = ({ data }) => {
   return (
     <BarChart width={400} height={350} data={data} barSize={29}>
-      <XAxis dataKey="name" />
+      <XAxis dataKey="date" />
       <YAxis />
       <Tooltip />
-      <Bar dataKey="uv" fill="#8884d8" />
+      <Bar dataKey="scanCount" fill="#8884d8" />
     </BarChart>
   )
 }
