@@ -25,7 +25,7 @@ const EditQrPage = () => {
   }
   if (isSuccess) {
     const { data: qrData } = data;
-    content = <QrCoreForm initialData={qrData} />
+    content = <QrCoreForm initialData={qrData} isEdit />
   }
   return (
     <>{content}</>

@@ -18,6 +18,10 @@ export const qrSchema = z.object({
       job: z.string().min(1, 'Job is required'),
       address: z.string().min(1, 'Address is required'),
       summary: z.string().min(1, 'Summary is required'),
+      file: z.any().refine(
+        (file) => file[0].type === 'application/pdf' || file[0].type.startsWith('image/'),
+        'File must be a PDF or an Image'
+      ),
     })
     .optional(),
   media: z

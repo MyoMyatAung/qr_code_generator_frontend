@@ -4,7 +4,7 @@
 
 body {
     font-family: "Inter", sans-serif;
-    overflow: hidden;
+    /* overflow: hidden; */
 }
 
 body::-webkit-scrollbar {
@@ -154,4 +154,13 @@ body::-webkit-scrollbar-thumb {
     100% {
         transform: rotate(360deg);
     }
+}
+
+
+/* -------------- AVATAR CSS -------------- */
+.avatar {
+    vertical-align: middle;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
 }

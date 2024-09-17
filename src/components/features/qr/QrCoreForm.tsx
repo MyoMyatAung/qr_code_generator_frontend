@@ -20,9 +20,11 @@ import MediaPreview from './MediaPreview';
 
 interface QRCodeFormProps {
   initialData?: Partial<QR>;
+  isEdit?: boolean
 }
 
-const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
+const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) => {
+  console.log(initialData);
   const dispatch = useAppDispatch();
   const { register, watch, formState: { errors }, handleSubmit } = useForm<QRInput>({
     defaultValues: {
@@ -38,12 +40,13 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
         job: (initialData?.data as Employee)?.job || '',
         address: (initialData?.data as Employee)?.address || '',
         summary: (initialData?.data as Employee)?.summary || '',
+        file: (initialData?.data as Employee)?.media?.key || undefined,
       },
       media: {
         company: (initialData?.data as Media)?.company || '',
         title: (initialData?.data as Media)?.title || '',
         description: (initialData?.data as Media)?.description || '',
-        file: (initialData?.data as Media)?.media?.key || undefined, // Fix file assignment
+        file: (initialData?.data as Media)?.media?.key || undefined,
       },
     },
   });
@@ -66,6 +69,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
         formData.append("data", data.websiteLink as string);
       }
       if (data.qrType === QRType.V_CARD) {
+        formData.append("data", data.vCard?.file[0] as Blob);
         formData.append("data[firstName]", data.vCard?.firstName as string);
         formData.append("data[lastName]", data.vCard?.lastName as string);
         formData.append("data[phone]", data.vCard?.phone as string);
@@ -110,7 +114,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
     <>
       {loadingContent}
       <div className='flex gap-2'>
-        <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-full p-8 rounded-md'>
+        <form onSubmit={handleSubmit(onSubmit)} className='bg-white w-full p-8 rounded-md flex-1'>
           <IInput
             register={register}
             id="qrName"
@@ -121,18 +125,19 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
             error={errors.qrName?.message || ""}
           />
 
-          <div>
-            <label>QR Type:</label>
-            <div className='flex gap-4'>
-              <CustomRadioButton qrType={qrType} register={register} label="Website" value={QRType.WEBSITE} />
-              <CustomRadioButton qrType={qrType} register={register} label="V_Card" value={QRType.V_CARD} />
-              <CustomRadioButton qrType={qrType} register={register} label="PDF" value={QRType.PDF} />
-              <CustomRadioButton qrType={qrType} register={register} label="Image" value={QRType.IMAGE} />
-
+          {
+            !isEdit && <div>
+              <label>QR Type:</label>
+              <div className={`flex gap-4`}>
+                <CustomRadioButton qrType={qrType} register={register} label="Website" value={QRType.WEBSITE} />
+                <CustomRadioButton qrType={qrType} register={register} label="V_Card" value={QRType.V_CARD} />
+                <CustomRadioButton qrType={qrType} register={register} label="PDF" value={QRType.PDF} />
+                <CustomRadioButton qrType={qrType} register={register} label="Image" value={QRType.IMAGE} />
+              </div>
+              {errors.qrType && <p>{errors.qrType.message}</p>}
             </div>
-            {errors.qrType && <p>{errors.qrType.message}</p>}
-          </div>
-
+          }
+          <hr className='mt-4' />
           {qrType === QRType.WEBSITE && (
             <IInput
               register={register}
@@ -157,7 +162,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
           </div>
         </form>
 
-        <div className='w-96'>
+        <div className='flex-1'>
           {
             watchFields.qrType === QRType.V_CARD &&
             <VCardPreview
@@ -169,8 +174,10 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData }) => {
                 email: watchFields.vCard?.email as string,
                 job: watchFields.vCard?.job as string,
                 phone: watchFields.vCard?.phone as string,
-                summary: watchFields.vCard?.summary as string
+                summary: watchFields.vCard?.summary as string,
+                media: !!initialData ? (initialData.data as Media).media : { key: "", url: "" }
               }}
+              file={!!watchFields.vCard?.file ? watchFields.vCard.file[0] : null}
             />
           }
           {

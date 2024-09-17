@@ -85,6 +85,7 @@ const QRDetailPage = () => {
             qrData.type === QRType.V_CARD &&
             <TD>
               <h3 className="text-lg font-semibold mb-4">Employee Information: </h3>
+              <img className='avatar' src={`${process.env.REACT_APP_API_URL}/media/${(qrData.data as Employee).media?.key}`} alt={(qrData.data as Employee).firstName} width={120} height="auto" />
               <div className="flex gap-4 items-baseline">
                 <div>
                   <p className="my-1 text-sm"><b>First Name</b></p>

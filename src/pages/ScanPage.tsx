@@ -42,7 +42,7 @@ const ScanPage = () => {
     }
   }
   return (
-    <div className='overflow-scroll'>{content}</div>
+    <div className='overflow-y-auto'>{content}</div>
   )
 }
 

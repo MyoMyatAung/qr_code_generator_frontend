@@ -12,6 +12,11 @@ type Props = {
 const VCardForm: React.FC<Props> = ({ register, errors }) => {
   return (
     <>
+      <div className='my-4'>
+        <label>File:</label>
+        <input type="file" {...register('vCard.file')} required/>
+      </div>
+      <hr className='mb-4'/>
       <IInput
         register={register}
         id="vCard.firstName"
