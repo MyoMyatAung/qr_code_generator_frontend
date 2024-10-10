@@ -8,6 +8,7 @@ import { FaArrowRight } from "react-icons/fa6";
 import { dateFormatter } from '../../../utils/dateFormatter';
 import { Link } from 'react-router-dom';
 import { RoutesPath } from '../../../libs/constants';
+import { handleDownload } from '../../../utils';
 
 type Props = {
   item: QR
@@ -28,8 +29,8 @@ const QrListItem: React.FC<Props> = ({ item }) => {
           <p className='text-sm text-gray-600'>Scans</p>
           <Link to={`/${RoutesPath.QR}/${item._id}`} className='flex items-center gap-2 text-lg font-semibold text-primary mt-2'>Detail <FaArrowRight /></Link>
         </div>
-        <div>
-          <img src={`${process.env.REACT_APP_API_URL}/qrcode/${item.qrcode.key}`} alt={item.qrName} />
+        <div onClick={() => handleDownload(`${process.env.REACT_APP_API_URL}/download/qr/${item.qrcode.key}`, item.qrcode.key)} className='cursor-pointer'>
+          <img title='Click to download' src={`${process.env.REACT_APP_API_URL}/qrcode/${item.qrcode.key}`} alt={item.qrName} />
         </div>
       </div>
     </div>

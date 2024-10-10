@@ -183,6 +183,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
           {
             (watchFields.qrType === QRType.PDF || watchFields.qrType === QRType.IMAGE) &&
             <MediaPreview
+              qrCode={null}
               data={{
                 company: watchFields.media?.company as string,
                 title: watchFields.media?.title as string,

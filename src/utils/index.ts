@@ -24,3 +24,13 @@ export const toBase64 = (file: File): Promise<string | ArrayBuffer | null> => ne
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
 });
+
+
+export const handleDownload = (url: string, fileName: string) => {
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}

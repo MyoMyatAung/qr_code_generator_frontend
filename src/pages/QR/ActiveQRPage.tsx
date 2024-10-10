@@ -5,8 +5,6 @@ import FullPageBackdrop from "../../components/shared/FullPageBackdrop";
 import LoadingSpinner from "../../components/shared/LoadingSpinner";
 import { HTTPResponseError } from "../../utils/error";
 import QrList from "../../components/features/qr/QrList";
-import Button from "../../components/form/Button";
-import { BUTTON_TYPE } from "../../libs/constants";
 import { BsActivity } from "react-icons/bs";
 
 const ActiveQRPage = () => {
@@ -34,7 +32,6 @@ const ActiveQRPage = () => {
           <BsActivity />
           <h3>Active QR Code ({meta.total})</h3>
         </div>
-        <Button label="Create QR Code" type={BUTTON_TYPE.BUTTON} />
       </div>
       <QrList list={qrData} limit={limit} meta={meta} page={page} setLimit={setLimit} setPage={setPage} />
     </>

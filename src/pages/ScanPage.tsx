@@ -7,6 +7,8 @@ import { QRType } from '../libs/constants';
 import VCardPreview from '../components/features/qr/VCardPreview';
 import { Employee, Media } from '../libs/models/qr';
 import MediaPreview from '../components/features/qr/MediaPreview';
+import { HTTPResponseError } from '../utils/error';
+import ErrorQr from '../components/features/qr/ErrorQr';
 
 export type MyParams = {
   id: string;
@@ -14,7 +16,7 @@ export type MyParams = {
 
 const ScanPage = () => {
   let { id } = useParams<keyof MyParams>() as MyParams;
-  const { data, isError, isLoading, isSuccess } = useGetQrByQrIdQuery(id);
+  const { data, isError, isLoading, isSuccess, error } = useGetQrByQrIdQuery(id);
   const [scanQr] = useScanQrMutation();
 
   useEffect(() => {
@@ -27,7 +29,8 @@ const ScanPage = () => {
     </FullPageBackdrop>
   }
   if (isError) {
-    content = <>Error loading QR Code.</>
+    const customError = HTTPResponseError.fromResponse(error);
+    content = <ErrorQr message={customError.message} />
   }
   if (isSuccess) {
     const { data: qrData } = data;
@@ -38,7 +41,7 @@ const ScanPage = () => {
       content = <VCardPreview employee={qrData.data as Employee} />
     }
     if (qrData.type === QRType.IMAGE || qrData.type === QRType.PDF) {
-      content = <MediaPreview data={qrData.data as Media} qrType={qrData.type} file={null} />
+      content = <MediaPreview qrCode={{...qrData.qrcode}} data={qrData.data as Media} qrType={qrData.type} file={null} />
     }
   }
   return (

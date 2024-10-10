@@ -10,9 +10,12 @@ import Button from "../../components/form/Button";
 import IBarChart from "../../components/shared/BarChart";
 import { readableDate } from "../../utils/dateFormatter";
 import { MdOutlineEdit } from "react-icons/md";
+import { FaDownload } from "react-icons/fa";
 import { useAppDispatch } from "../../store";
 import { openSnackbar } from "../../reducers/appSlice";
 import { HTTPResponseError } from "../../utils/error";
+import PdfRenderer from "../../components/shared/PdfRenderer";
+import { handleDownload } from "../../utils";
 
 export type MyParams = {
   id: string;
@@ -34,7 +37,7 @@ const QRDetailPage = () => {
   const dispatch = useAppDispatch();
 
   let { id } = useParams<keyof MyParams>() as MyParams;
-  const { data, isError, isLoading, isSuccess } = useGetQrByIdQuery(id);
+  const { data, isError, isLoading, isSuccess, error } = useGetQrByIdQuery(id);
   const [toggleQr, { isLoading: toggleLoading }] = useToggleQrMutation();
 
   const handleToggleQr = async (id: string, status: boolean) => {
@@ -54,7 +57,8 @@ const QRDetailPage = () => {
     </FullPageBackdrop>
   }
   if (isError) {
-    content = <>Error loading QR Code.</>
+    const customError = HTTPResponseError.fromResponse(error);
+    content = <>{customError.message}</>
   }
   if (isSuccess) {
     const { data: qrData } = data;
@@ -73,7 +77,10 @@ const QRDetailPage = () => {
         </tr>
         <tr>
           <TD isHead>QR Code</TD>
-          <TD><img src={`${process.env.REACT_APP_API_URL}/qrcode/${qrData.qrcode.key}`} alt={qrData.qrName} /></TD>
+          <TD>
+            <img src={`${process.env.REACT_APP_API_URL}/qrcode/${qrData.qrcode.key}`} alt={qrData.qrName} />
+            <Button label="Download QR" type={BUTTON_TYPE.BUTTON} endIcon={<FaDownload />} onClick={() => handleDownload(`${process.env.REACT_APP_API_URL}/download/qr/${qrData.qrcode.key}`, qrData.qrcode.key)} />
+          </TD>
         </tr>
         <tr>
           <TD isHead>QR Data</TD>
@@ -126,7 +133,7 @@ const QRDetailPage = () => {
                   <p className="my-1 text-sm">: {(qrData.data as Media).title}</p>
                   <p className="my-1 text-sm">: {(qrData.data as Media).description}</p>
                   <p className="my-1 text-sm">:
-                    {qrData.type === QRType.PDF && <embed src={`${process.env.REACT_APP_API_URL}/media/${(qrData.data as Media).media?.key}`} width={"100%"} height={350} />}
+                    {qrData.type === QRType.PDF && <PdfRenderer url={`${process.env.REACT_APP_API_URL}/media/${(qrData.data as Media).media?.key}`} />}
                     {qrData.type === QRType.IMAGE && <img src={`${process.env.REACT_APP_API_URL}/media/${(qrData.data as Media).media?.key}`} alt={qrData.qrName} width={320} height="auto" />}
                   </p>
                 </div>

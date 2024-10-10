@@ -9,13 +9,15 @@ import Button from "../../components/form/Button";
 import { BUTTON_TYPE, RoutesPath } from "../../libs/constants";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import QrSearch from "../../components/shared/QrSearch";
 
 const AllQrPage = () => {
   useChangeAppTitle("All QRs");
 
   const [page, setPage] = useState<number>(1);
   const [limit, setLimit] = useState<number>(10);
-  const { data, isError, isLoading, isSuccess, error } = useGetQrsQuery({ limit, page });
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const { data, isError, isLoading, isFetching, isSuccess, error } = useGetQrsQuery({ limit, page, qrName: searchQuery });
 
   let content;
   if (isLoading) {
@@ -30,10 +32,15 @@ const AllQrPage = () => {
   if (isSuccess) {
     const { data: qrData, meta } = data;
     content = <>
-      <div className="mb-2 flex items-center justify-between">
-        <div className="flex items-center gap-2 font-semibold text-gray-600">
-          <IoMenu />
-          <h3>Total QR Code ({meta.total})</h3>
+      <div className="mb-2 gap-2 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 font-semibold text-gray-600">
+            <IoMenu />
+            <h3>Total QR Code ({meta.total})</h3>
+          </div>
+          <div>
+            <QrSearch onSearch={(val) => setSearchQuery(val)} />
+          </div>
         </div>
         <Link to={`/${RoutesPath.CREATE}`}>
           <Button label="Create QR Code" type={BUTTON_TYPE.BUTTON} />
@@ -44,9 +51,14 @@ const AllQrPage = () => {
   }
 
   return (
-    <div className="my-2">
-      {content}
-    </div>
+    <>
+      {isFetching && <FullPageBackdrop>
+        <LoadingSpinner />
+      </FullPageBackdrop>}
+      <div className="my-2">
+        {content}
+      </div>
+    </>
   )
 }
 
