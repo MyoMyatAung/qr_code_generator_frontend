@@ -2,10 +2,11 @@ import { useState } from "react";
 import { useChangeAppTitle } from "../../hooks/useChangeAppTitle";
 import { useGetQrsQuery } from "../../reducers/qrSlice";
 import FullPageBackdrop from "../../components/shared/FullPageBackdrop";
-import LoadingSpinner from "../../components/shared/LoadingSpinner";
 import { HTTPResponseError } from "../../utils/error";
 import QrList from "../../components/features/qr/QrList";
 import { BsActivity } from "react-icons/bs";
+import Lottie from "lottie-react";
+import loading from "../../assets/loading.json";
 
 const ActiveQRPage = () => {
   useChangeAppTitle("Active QRs");
@@ -17,7 +18,7 @@ const ActiveQRPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <LoadingSpinner />
+      <Lottie animationData={loading} loop={true} width={10} height={10} />
     </FullPageBackdrop>;
   }
   if (isError) {

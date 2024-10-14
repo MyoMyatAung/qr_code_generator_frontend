@@ -3,7 +3,6 @@ import { Link, useParams } from "react-router-dom";
 import { useChangeAppTitle } from "../../hooks/useChangeAppTitle";
 import { useGetQrByIdQuery, useToggleQrMutation } from "../../reducers/qrSlice";
 import FullPageBackdrop from "../../components/shared/FullPageBackdrop";
-import LoadingSpinner from "../../components/shared/LoadingSpinner";
 import { Employee, Media } from "../../libs/models/qr";
 import { BUTTON_SIZE, BUTTON_TYPE, BUTTON_VARIANT, QRType, RoutesPath, TOAST_SEVERITY } from "../../libs/constants";
 import Button from "../../components/form/Button";
@@ -16,6 +15,8 @@ import { openSnackbar } from "../../reducers/appSlice";
 import { HTTPResponseError } from "../../utils/error";
 import PdfRenderer from "../../components/shared/PdfRenderer";
 import { handleDownload } from "../../utils";
+import Lottie from "lottie-react";
+import loading from "../../assets/loading.json";
 
 export type MyParams = {
   id: string;
@@ -53,7 +54,7 @@ const QRDetailPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <LoadingSpinner />
+      <Lottie animationData={loading} loop={true} width={10} height={10} />
     </FullPageBackdrop>
   }
   if (isError) {
@@ -182,7 +183,7 @@ const QRDetailPage = () => {
     <>
       {
         toggleLoading && <FullPageBackdrop>
-          <LoadingSpinner />
+          <Lottie animationData={loading} loop={true} width={10} height={10} />
         </FullPageBackdrop>
       }
       {content}

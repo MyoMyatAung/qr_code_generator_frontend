@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useChangeAppTitle } from "../hooks/useChangeAppTitle";
 import { toggleFormDialog, useGetAdminsQuery } from "../reducers/adminSlice";
 import FullPageBackdrop from "../components/shared/FullPageBackdrop";
-import LoadingSpinner from "../components/shared/LoadingSpinner";
 import AdminList from "../components/features/admins/AdminList";
 import Button from "../components/form/Button";
 import { BUTTON_TYPE } from "../libs/constants";
@@ -10,6 +9,8 @@ import AdminFormModal from "../components/features/admins/AdminFormModal";
 import AdminDeleteModal from "../components/features/admins/AdminDeleteModal";
 import { HTTPResponseError } from "../utils/error";
 import { useAppDispatch } from "../store";
+import Lottie from "lottie-react";
+import loading from "../assets/loading.json";
 
 const AdminPage = () => {
     useChangeAppTitle("Admins");
@@ -25,7 +26,7 @@ const AdminPage = () => {
     let content;
     if (isLoading) {
         content = <FullPageBackdrop>
-            <LoadingSpinner />
+            <Lottie animationData={loading} loop={true} width={10} height={10} />
         </FullPageBackdrop>;
     }
     if (isError) {

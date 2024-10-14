@@ -2,13 +2,14 @@ import { useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import { useGetQrByQrIdQuery, useScanQrMutation } from '../reducers/qrSlice';
 import FullPageBackdrop from '../components/shared/FullPageBackdrop';
-import LoadingSpinner from '../components/shared/LoadingSpinner';
 import { QRType } from '../libs/constants';
 import VCardPreview from '../components/features/qr/VCardPreview';
 import { Employee, Media } from '../libs/models/qr';
 import MediaPreview from '../components/features/qr/MediaPreview';
 import { HTTPResponseError } from '../utils/error';
 import ErrorQr from '../components/features/qr/ErrorQr';
+import loading from "../assets/loading.json";
+import Lottie from 'lottie-react';
 
 export type MyParams = {
   id: string;
@@ -25,7 +26,7 @@ const ScanPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <LoadingSpinner />
+      <Lottie animationData={loading} loop={true} width={10} height={10} />
     </FullPageBackdrop>
   }
   if (isError) {
@@ -41,7 +42,7 @@ const ScanPage = () => {
       content = <VCardPreview employee={qrData.data as Employee} />
     }
     if (qrData.type === QRType.IMAGE || qrData.type === QRType.PDF) {
-      content = <MediaPreview qrCode={{...qrData.qrcode}} data={qrData.data as Media} qrType={qrData.type} file={null} />
+      content = <MediaPreview qrCode={{ ...qrData.qrcode }} data={qrData.data as Media} qrType={qrData.type} file={null} />
     }
   }
   return (

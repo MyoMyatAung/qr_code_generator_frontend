@@ -34,3 +34,14 @@ export const handleDownload = (url: string, fileName: string) => {
     link.click();
     document.body.removeChild(link);
 }
+
+export const defaultOptions = (animationData: any) => {
+    return {
+        loop: true,
+        autoplay: true,
+        animationData: animationData,
+        rendererSettings: {
+            preserveAspectRatio: "xMidYMid slice"
+        }
+    }
+};

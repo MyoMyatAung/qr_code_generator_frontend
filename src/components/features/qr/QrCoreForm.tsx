@@ -13,10 +13,11 @@ import { HTTPResponseError } from '../../../utils/error';
 import { useCreateQrMutation, useUpdateQrMutation } from '../../../reducers/qrSlice';
 import { useNavigate } from 'react-router-dom';
 import FullPageBackdrop from '../../shared/FullPageBackdrop';
-import LoadingSpinner from '../../shared/LoadingSpinner';
 import { Employee, Media, QR } from '../../../libs/models/qr';
 import VCardPreview from './VCardPreview';
 import MediaPreview from './MediaPreview';
+import loading from "../../../assets/loading.json";
+import Lottie from 'lottie-react';
 
 interface QRCodeFormProps {
   initialData?: Partial<QR>;
@@ -106,7 +107,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
   let loadingContent;
   if (createLoading || updateLoading) {
     loadingContent = <FullPageBackdrop>
-      <LoadingSpinner />
+      <Lottie animationData={loading} loop={true} width={10} height={10} />
     </FullPageBackdrop>
   }
 
