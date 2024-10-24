@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { RoutesPath, RoutesTitle } from "../constants";
 import { FaUserCog } from "react-icons/fa";
-import { AiOutlineQuestionCircle, AiFillSetting } from "react-icons/ai";
+// import { AiOutlineQuestionCircle, AiFillSetting } from "react-icons/ai";
 import { IoMenu } from "react-icons/io5";
 import { BsActivity } from "react-icons/bs";
 import { MdOutlinePauseCircle } from "react-icons/md";
@@ -41,16 +41,16 @@ export const SIDE_MENU_ITEMS: Array<SideMenuItem> = [
 ];
 
 export const BOTTOM_MENU_ITEMS: Array<SideMenuItem> = [
-    {
-        key: "settings",
-        title: "Settings",
-        path: "/settings",
-        icon: <AiFillSetting />,
-    },
-    {
-        key: "supports",
-        title: "Helps & Support",
-        path: "/supports",
-        icon: <AiOutlineQuestionCircle />,
-    },
+    // {
+    //     key: "settings",
+    //     title: "Settings",
+    //     path: "/settings",
+    //     icon: <AiFillSetting />,
+    // },
+    // {
+    //     key: "supports",
+    //     title: "Helps & Support",
+    //     path: "/supports",
+    //     icon: <AiOutlineQuestionCircle />,
+    // },
 ];
