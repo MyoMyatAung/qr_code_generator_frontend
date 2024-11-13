@@ -15,8 +15,7 @@ import { openSnackbar } from "../../reducers/appSlice";
 import { HTTPResponseError } from "../../utils/error";
 import PdfRenderer from "../../components/shared/PdfRenderer";
 import { handleDownload } from "../../utils";
-import Lottie from "lottie-react";
-import loading from "../../assets/loading.json";
+import LoadingSpinner from "../../components/shared/LoadingSpinner";
 
 export type MyParams = {
   id: string;
@@ -54,7 +53,7 @@ const QRDetailPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <Lottie animationData={loading} loop={true} width={10} height={10} />
+      <LoadingSpinner />
     </FullPageBackdrop>
   }
   if (isError) {
@@ -183,7 +182,7 @@ const QRDetailPage = () => {
     <>
       {
         toggleLoading && <FullPageBackdrop>
-          <Lottie animationData={loading} loop={true} width={10} height={10} />
+            <LoadingSpinner />
         </FullPageBackdrop>
       }
       {content}

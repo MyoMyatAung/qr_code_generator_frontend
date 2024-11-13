@@ -8,7 +8,7 @@ import { Employee, Media } from '../libs/models/qr';
 import MediaPreview from '../components/features/qr/MediaPreview';
 import { HTTPResponseError } from '../utils/error';
 import ErrorQr from '../components/features/qr/ErrorQr';
-import loading from "../assets/loading.json";
+import loading from "../assets/logo_loading.gif";
 import Lottie from 'lottie-react';
 
 export type MyParams = {
@@ -26,12 +26,20 @@ const ScanPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <Lottie animationData={loading} loop={true} width={10} height={10} />
+      <img src={loading} alt="Loading" className="w-48 transition-opacity ease-in duration-700 opacity-100 hover:opacity-0" />
     </FullPageBackdrop>
   }
+
   if (isError) {
     const customError = HTTPResponseError.fromResponse(error);
-    content = <ErrorQr message={customError.message} />
+    // @ts-ignore
+    if(customError.status !== "FETCH_ERROR"){
+      content = <ErrorQr message={customError.message} />
+    }else{
+      content = <FullPageBackdrop>
+        <img src={loading} alt="Loading" className="w-48 transition-opacity ease-in duration-700 opacity-100 hover:opacity-0" />
+      </FullPageBackdrop>
+    }
   }
   if (isSuccess) {
     const { data: qrData } = data;

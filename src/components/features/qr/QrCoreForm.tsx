@@ -16,8 +16,7 @@ import FullPageBackdrop from '../../shared/FullPageBackdrop';
 import { Employee, Media, QR } from '../../../libs/models/qr';
 import VCardPreview from './VCardPreview';
 import MediaPreview from './MediaPreview';
-import loading from "../../../assets/loading.json";
-import Lottie from 'lottie-react';
+import LoadingSpinner from "../../shared/LoadingSpinner";
 
 interface QRCodeFormProps {
   initialData?: Partial<QR>;
@@ -107,7 +106,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
   let loadingContent;
   if (createLoading || updateLoading) {
     loadingContent = <FullPageBackdrop>
-      <Lottie animationData={loading} loop={true} width={10} height={10} />
+      <LoadingSpinner />
     </FullPageBackdrop>
   }
 

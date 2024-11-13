@@ -3,8 +3,7 @@ import QrCoreForm from '../../components/features/qr/QrCoreForm'
 import { useChangeAppTitle } from '../../hooks/useChangeAppTitle';
 import { useGetQrByIdQuery } from '../../reducers/qrSlice';
 import FullPageBackdrop from '../../components/shared/FullPageBackdrop';
-import loading from "../../assets/loading.json";
-import Lottie from 'lottie-react';
+import LoadingSpinner from "../../components/shared/LoadingSpinner";
 
 export type MyParams = {
   id: string;
@@ -18,7 +17,7 @@ const EditQrPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <Lottie animationData={loading} loop={true} width={10} height={10} />
+      <LoadingSpinner />
     </FullPageBackdrop>
   }
   if (isError) {

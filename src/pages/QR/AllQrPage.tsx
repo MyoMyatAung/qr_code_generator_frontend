@@ -9,8 +9,7 @@ import { BUTTON_TYPE, RoutesPath } from "../../libs/constants";
 import { IoMenu } from "react-icons/io5";
 import { Link } from "react-router-dom";
 import QrSearch from "../../components/shared/QrSearch";
-import Lottie from "lottie-react";
-import loading from "../../assets/loading.json";
+import LoadingSpinner from "../../components/shared/LoadingSpinner";
 
 const AllQrPage = () => {
   useChangeAppTitle("All QRs");
@@ -23,7 +22,7 @@ const AllQrPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <Lottie animationData={loading} loop={true} width={10} height={10} />
+      <LoadingSpinner />
     </FullPageBackdrop>;
   }
   if (isError) {
@@ -54,7 +53,7 @@ const AllQrPage = () => {
   return (
     <>
       {isFetching && <FullPageBackdrop>
-        <Lottie animationData={loading} loop={true} width={10} height={10} />
+        <LoadingSpinner />
       </FullPageBackdrop>}
       <div className="my-2">
         {content}

@@ -9,8 +9,7 @@ import AdminFormModal from "../components/features/admins/AdminFormModal";
 import AdminDeleteModal from "../components/features/admins/AdminDeleteModal";
 import { HTTPResponseError } from "../utils/error";
 import { useAppDispatch } from "../store";
-import Lottie from "lottie-react";
-import loading from "../assets/loading.json";
+import LoadingSpinner from "../components/shared/LoadingSpinner";
 
 const AdminPage = () => {
     useChangeAppTitle("Admins");
@@ -26,7 +25,7 @@ const AdminPage = () => {
     let content;
     if (isLoading) {
         content = <FullPageBackdrop>
-            <Lottie animationData={loading} loop={true} width={10} height={10} />
+            <LoadingSpinner />
         </FullPageBackdrop>;
     }
     if (isError) {

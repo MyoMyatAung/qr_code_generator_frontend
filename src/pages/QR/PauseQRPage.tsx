@@ -5,8 +5,7 @@ import FullPageBackdrop from "../../components/shared/FullPageBackdrop";
 import { HTTPResponseError } from "../../utils/error";
 import QrList from "../../components/features/qr/QrList";
 import { MdOutlinePauseCircle } from "react-icons/md";
-import Lottie from "lottie-react";
-import loading from "../../assets/loading.json";
+import LoadingSpinner from "../../components/shared/LoadingSpinner";
 
 const PauseQRPage = () => {
   useChangeAppTitle("Paused QRs");
@@ -18,7 +17,7 @@ const PauseQRPage = () => {
   let content;
   if (isLoading) {
     content = <FullPageBackdrop>
-      <Lottie animationData={loading} loop={true} width={10} height={10} />
+      <LoadingSpinner />
     </FullPageBackdrop>;
   }
   if (isError) {
