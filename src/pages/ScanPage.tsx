@@ -9,7 +9,6 @@ import MediaPreview from '../components/features/qr/MediaPreview';
 import { HTTPResponseError } from '../utils/error';
 import ErrorQr from '../components/features/qr/ErrorQr';
 import loading from "../assets/logo_loading.gif";
-import Lottie from 'lottie-react';
 
 export type MyParams = {
   id: string;
@@ -21,7 +20,7 @@ const ScanPage = () => {
   const [scanQr] = useScanQrMutation();
 
   useEffect(() => {
-    scanQr(id).then((res) => console.log("SCAN SUCCESS")).catch(() => console.log("SCAN FAIL"))
+    scanQr(id).then((res) => console.log("SCAN SUCCESS", res)).catch(() => console.log("SCAN FAIL"))
   }, [id, scanQr]);
   let content;
   if (isLoading) {
