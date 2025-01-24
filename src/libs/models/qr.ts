@@ -1,4 +1,4 @@
-import { QRType } from "../constants";
+import {QRType, SocialType} from "../constants";
 import { Admin } from "./admin";
 import { Pagination } from "./responses";
 
@@ -12,7 +12,7 @@ export interface QR {
     key: string;
     _id: string;
   };
-  data: string | Employee | Media;
+  data: string | Employee | Media | Social;
   status: boolean;
   scanCount: number;
   createdBy: Admin;
@@ -23,6 +23,21 @@ export interface QR {
   __v: 0;
 }
 
+export interface SocialMedia {
+    text: string;
+    url: string;
+    type: SocialType;
+}
+
+export interface Social {
+    title: string;
+    description: string;
+    media?: {
+        url: string;
+        key: string;
+    },
+    socialMedia: SocialMedia[];
+}
 
 export interface Employee {
   firstName: string;

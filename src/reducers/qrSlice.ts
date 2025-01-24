@@ -3,6 +3,38 @@ import { QR, QRPagination } from "../libs/models/qr";
 import { IResponse } from "../libs/models/responses";
 import { objectToQueryString } from "../utils";
 import { apiSlice } from "./apiSlice";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+
+interface InitialState {
+  confirmDialog: {
+    isOpen: boolean;
+    title: string;
+    description: string;
+  }
+}
+
+const initialState: InitialState = {
+  confirmDialog: {
+    isOpen: false,
+    title: "",
+    description: ""
+  }
+}
+
+const qrSlice = createSlice({
+  name: "qr",
+  initialState,
+  reducers: {
+    openConfirmDialog: (state, action: PayloadAction<{ title: string, description: string }>) => {
+      state.confirmDialog.isOpen = true;
+      state.confirmDialog.title = action.payload.title;
+      state.confirmDialog.description = action.payload.description;
+    },
+    closeConfirmDialog: (state) => {
+      state.confirmDialog = initialState.confirmDialog;
+    },
+  },
+});
 
 export const extendedQRApiSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => {
@@ -81,9 +113,22 @@ export const extendedQRApiSlice = apiSlice.injectEndpoints({
           };
         },
         invalidatesTags: [REDUX_TOOLKIT_TAGS.QR],
-      })
+      }),
+      deleteQr: builder.mutation<IResponse<QR>, string>({
+        query: (id: string) => ({
+          url: `${API_ENDPOINTS.QR}/${id}`,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: HTTP_METHODS.DELETE,
+        }),
+        invalidatesTags: [REDUX_TOOLKIT_TAGS.QR]
+      }),
     }
   }
 });
 
-export const { useGetQrsQuery, useCreateQrMutation, useGetQrByIdQuery, useGetQrByQrIdQuery, useUpdateQrMutation, useToggleQrMutation, useScanQrMutation } = extendedQRApiSlice;
+export const { useGetQrsQuery, useCreateQrMutation, useGetQrByIdQuery, useGetQrByQrIdQuery, useUpdateQrMutation, useToggleQrMutation, useScanQrMutation, useDeleteQrMutation } = extendedQRApiSlice;
+
+export const { openConfirmDialog, closeConfirmDialog } = qrSlice.actions;
+export default qrSlice.reducer;

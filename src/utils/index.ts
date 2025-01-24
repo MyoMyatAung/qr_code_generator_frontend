@@ -1,10 +1,8 @@
 export function objectToQueryString(obj: Record<string, any>): string {
-    const queryString = Object.keys(obj)
+    return Object.keys(obj)
         .filter((key) => obj[key] !== null && obj[key] !== undefined && obj[key] !== "" && obj[key] !== 0)
         .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(obj[key])}`)
         .join("&");
-
-    return queryString;
 }
 
 export function truncateString(str: string, maxLength: number): string {
@@ -45,3 +43,7 @@ export const defaultOptions = (animationData: any) => {
         }
     }
 };
+
+export const capitalize = (str: string): string => {
+    return String(str[0]).toUpperCase() + String(str).slice(1).toLowerCase();
+}

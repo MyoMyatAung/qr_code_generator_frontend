@@ -4,11 +4,12 @@ import { useGetQrByQrIdQuery, useScanQrMutation } from '../reducers/qrSlice';
 import FullPageBackdrop from '../components/shared/FullPageBackdrop';
 import { QRType } from '../libs/constants';
 import VCardPreview from '../components/features/qr/VCardPreview';
-import { Employee, Media } from '../libs/models/qr';
+import {Employee, Media, Social} from '../libs/models/qr';
 import MediaPreview from '../components/features/qr/MediaPreview';
 import { HTTPResponseError } from '../utils/error';
 import ErrorQr from '../components/features/qr/ErrorQr';
 import loading from "../assets/logo_loading.gif";
+import SocialPreview from "../components/features/qr/SocialPreview";
 
 export type MyParams = {
   id: string;
@@ -50,6 +51,9 @@ const ScanPage = () => {
     }
     if (qrData.type === QRType.IMAGE || qrData.type === QRType.PDF) {
       content = <MediaPreview qrCode={{ ...qrData.qrcode }} data={qrData.data as Media} qrType={qrData.type} file={null} />
+    }
+    if (qrData.type === QRType.SOCIAL) {
+      content = <SocialPreview social={qrData.data as Social} />
     }
   }
   return (

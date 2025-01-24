@@ -1,22 +1,24 @@
 import React from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { BUTTON_TYPE, QRType, RoutesPath, TOAST_SEVERITY } from '../../../libs/constants';
-import { IInput } from '../../form/Input';
-import { QRInput } from '../../../libs/schemas/qr.schema';
+import {SubmitHandler, useFieldArray, useForm} from 'react-hook-form';
+import {BUTTON_TYPE, QRType, RoutesPath, SocialType, TOAST_SEVERITY} from '../../../libs/constants';
+import {IInput} from '../../form/Input';
+import {QRInput} from '../../../libs/schemas/qr.schema';
 import VCardForm from './VCardForm';
 import MediaForm from './MediaForm';
 import CustomRadioButton from '../../form/CustomRadioButton';
 import Button from '../../form/Button';
-import { useAppDispatch } from '../../../store';
-import { openSnackbar } from '../../../reducers/appSlice';
-import { HTTPResponseError } from '../../../utils/error';
-import { useCreateQrMutation, useUpdateQrMutation } from '../../../reducers/qrSlice';
-import { useNavigate } from 'react-router-dom';
+import {useAppDispatch} from '../../../store';
+import {openSnackbar} from '../../../reducers/appSlice';
+import {HTTPResponseError} from '../../../utils/error';
+import {useCreateQrMutation, useUpdateQrMutation} from '../../../reducers/qrSlice';
+import {useNavigate} from 'react-router-dom';
 import FullPageBackdrop from '../../shared/FullPageBackdrop';
-import { Employee, Media, QR } from '../../../libs/models/qr';
+import {Employee, Media, QR, Social} from '../../../libs/models/qr';
 import VCardPreview from './VCardPreview';
 import MediaPreview from './MediaPreview';
 import LoadingSpinner from "../../shared/LoadingSpinner";
+import SocialForm from "./SocialForm";
+import SocialPreview from "./SocialPreview";
 
 interface QRCodeFormProps {
   initialData?: Partial<QR>;
@@ -26,7 +28,7 @@ interface QRCodeFormProps {
 const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) => {
   console.log(initialData);
   const dispatch = useAppDispatch();
-  const { register, watch, formState: { errors }, handleSubmit } = useForm<QRInput>({
+  const { register, watch, formState: { errors }, handleSubmit, control } = useForm<QRInput>({
     defaultValues: {
       qrName: initialData?.qrName || '',
       qrType: initialData?.type || QRType.WEBSITE,
@@ -48,8 +50,20 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
         description: (initialData?.data as Media)?.description || '',
         file: (initialData?.data as Media)?.media?.key || undefined,
       },
+      social: {
+        title: (initialData?.data as Social)?.title || '',
+        description: (initialData?.data as Social)?.description || '',
+        socialMedia: (initialData?.data as Social)?.socialMedia || [{ text: 'Visit us online', url: 'www.your-website.com', type: SocialType.WEBSITE }],
+        file: (initialData?.data as Social)?.media?.key || undefined,
+      }
     },
   });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "social.socialMedia",
+  });
+
   const navigate = useNavigate();
 
   const qrType = watch('qrType');
@@ -84,6 +98,16 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
         formData.append("data[company]", data.media?.company as string);
         formData.append("data[title]", data.media?.title as string);
         formData.append("data[description]", data.media?.description as string);
+      }
+      if(data.qrType === QRType.SOCIAL) {
+        formData.append("data", data.social?.file[0] as Blob);
+        formData.append("data[title]", data.social?.title as string);
+        formData.append("data[description]", data.social?.description as string);
+        data.social?.socialMedia.forEach((item, index) => {
+          formData.append(`data[socialMedia][${index}][text]`, item.text);
+          formData.append(`data[socialMedia][${index}][url]`, item.url);
+          formData.append(`data[socialMedia][${index}][type]`, item.type);
+        });
       }
 
       if (!!initialData) {
@@ -121,7 +145,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
             label="QR Name"
             placeHolder="Name your QR Code"
             name="qrName"
-            required
+            required={true}
             error={errors.qrName?.message || ""}
           />
 
@@ -133,6 +157,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
                 <CustomRadioButton qrType={qrType} register={register} label="V_Card" value={QRType.V_CARD} />
                 <CustomRadioButton qrType={qrType} register={register} label="PDF" value={QRType.PDF} />
                 <CustomRadioButton qrType={qrType} register={register} label="Image" value={QRType.IMAGE} />
+                <CustomRadioButton qrType={qrType} register={register} label="Social" value={QRType.SOCIAL} />
               </div>
               {errors.qrType && <p>{errors.qrType.message}</p>}
             </div>
@@ -145,7 +170,7 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
               label="Website Link"
               placeHolder="Enter your website link"
               name="websiteLink"
-              required
+              required={true}
               error={errors.websiteLink?.message || ""}
             />
           )}
@@ -156,6 +181,9 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
 
           {(qrType === QRType.PDF || qrType === QRType.IMAGE) && (
             <MediaForm errors={errors} register={register} />
+          )}
+          {(qrType === QRType.SOCIAL) && (
+              <SocialForm onAppend={append} onRemove={remove} fields={fields} errors={errors} register={register} />
           )}
           <div className="mt-2">
             <Button label='Submit' type={BUTTON_TYPE.SUBMIT} blocked />
@@ -192,6 +220,18 @@ const QrCoreForm: React.FC<QRCodeFormProps> = ({ initialData, isEdit = false }) 
               }}
               file={!!watchFields.media?.file ? watchFields.media.file[0] : null}
               qrType={watchFields.qrType}
+            />
+          }
+          {
+            watchFields.qrType === QRType.SOCIAL &&
+            <SocialPreview
+                social={{
+                    socialMedia: watchFields.social.socialMedia,
+                    title: watchFields.social.title,
+                    description: watchFields.social.description,
+                    media: !!initialData ? (initialData.data as Social).media : { key: "", url: "" }
+                }}
+                file={!!watchFields.social?.file ? watchFields.social.file[0] : null}
             />
           }
         </div>
