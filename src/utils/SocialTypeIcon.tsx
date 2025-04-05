@@ -6,7 +6,7 @@ import {
     FaLinkedin,
     FaTelegramPlane,
     FaTiktok,
-    FaTwitter,
+    FaTwitter, FaViber,
     FaWhatsapp,
     FaYoutube
 } from "react-icons/fa";
@@ -40,6 +40,8 @@ const SocialTypeIcon: React.FC<Props> = ({type}) => {
             return <FaFacebookMessenger className='text-2xl text-gray-500'/>
         case SocialType.X:
             return <BsTwitterX className='text-2xl text-gray-500'/>
+        case SocialType.VIBER:
+            return <FaViber className='text-2xl text-gray-500'/>
         default:
             return <MdLanguage className='text-2xl text-gray-500'/>;
     }

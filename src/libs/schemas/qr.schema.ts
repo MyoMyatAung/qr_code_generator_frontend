@@ -54,6 +54,7 @@ export const qrSchema = z.object({
                     SocialType.TWITTER,
                     SocialType.WHATSAPP,
                     SocialType.YOUTUBE,
+                    SocialType.VIBER
                 ]),
             })
         ).min(1, {message: 'Social media must have at least 1 item'}),

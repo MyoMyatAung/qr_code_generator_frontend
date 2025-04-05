@@ -1,7 +1,18 @@
 import {SocialType} from "./index";
-import { MdLanguage } from "react-icons/md";
-import { FaFacebook, FaTwitter, FaLinkedin, FaInstagram, FaYoutube, FaTiktok, FaWhatsapp, FaTelegramPlane, FaFacebookMessenger } from "react-icons/fa";
-import { BsTwitterX } from "react-icons/bs";
+import {MdLanguage} from "react-icons/md";
+import {
+    FaFacebook,
+    FaFacebookMessenger,
+    FaInstagram,
+    FaLinkedin,
+    FaTelegramPlane,
+    FaTiktok,
+    FaTwitter,
+    FaWhatsapp,
+    FaYoutube,
+    FaViber
+} from "react-icons/fa";
+import {BsTwitterX} from "react-icons/bs";
 
 import {ReactNode} from "react";
 
@@ -61,4 +72,9 @@ export const socialList: Array<{type: SocialType, name: string, img: ReactNode}>
         name: "X",
         img: <BsTwitterX className='text-2xl text-gray-500'/>
     },
+    {
+        type: SocialType.VIBER,
+        name: "Viber",
+        img: <FaViber className='text-2xl text-gray-500'/>
+    }
 ];
