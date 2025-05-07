@@ -42,9 +42,9 @@ const SocialPreview: React.FC<Props> = ({social, file}) => {
                         return <button key={index} type={BUTTON_TYPE.BUTTON} onClick={() => onNavigateUrl(social.url)} className='block w-full p-4 border-t border-gray-200'>
                             <div className='flex items-center justify-start gap-4'>
                                 <SocialTypeIcon type={social.type}/>
-                                <div className='text-left'>
+                                <div className='text-left w-1/2 md:w-full'>
                                     <p className='text-sm'>{social.text}</p>
-                                    <p className='text-xs text-gray-500'>{social.url}</p>
+                                    <p className='text-xs text-gray-500 overflow-hidden'>{social.url}</p>
                                 </div>
                             </div>
                         </button>
