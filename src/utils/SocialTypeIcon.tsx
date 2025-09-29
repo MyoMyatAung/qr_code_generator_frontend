@@ -13,37 +13,38 @@ import {
 import {BsTwitterX} from "react-icons/bs";
 
 type Props = {
-    type: SocialType
+    type: SocialType,
+    className?: string,
 }
 
-const SocialTypeIcon: React.FC<Props> = ({type}) => {
+const SocialTypeIcon: React.FC<Props> = ({type, className}) => {
     switch (type) {
         case SocialType.WEBSITE:
-            return <MdLanguage className='text-2xl text-gray-500'/>;
+            return <MdLanguage className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.FACEBOOK:
-            return <FaFacebook className='text-2xl text-gray-500'/>
+            return <FaFacebook className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.TWITTER:
-            return <FaTwitter className='text-2xl text-gray-500'/>
+            return <FaTwitter className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.LINKEDIN:
-            return <FaLinkedin className='text-2xl text-gray-500'/>
+            return <FaLinkedin className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.INSTAGRAM:
-            return <FaInstagram className='text-2xl text-gray-500'/>
+            return <FaInstagram className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.YOUTUBE:
-            return <FaYoutube className='text-2xl text-gray-500'/>
+            return <FaYoutube className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.TIKTOK:
-            return <FaTiktok className='text-2xl text-gray-500'/>
+            return <FaTiktok className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.WHATSAPP:
-            return <FaWhatsapp className='text-2xl text-gray-500'/>
+            return <FaWhatsapp className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.TELEGRAM:
-            return <FaTelegramPlane className='text-2xl text-gray-500'/>
+            return <FaTelegramPlane className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.MESSENGER:
-            return <FaFacebookMessenger className='text-2xl text-gray-500'/>
+            return <FaFacebookMessenger className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.X:
-            return <BsTwitterX className='text-2xl text-gray-500'/>
+            return <BsTwitterX className={`text-2xl text-gray-500 ${className}`}/>;
         case SocialType.VIBER:
-            return <FaViber className='text-2xl text-gray-500'/>
+            return <FaViber className={`text-2xl text-gray-500 ${className}`}/>;
         default:
-            return <MdLanguage className='text-2xl text-gray-500'/>;
+            return <MdLanguage className={`text-2xl text-gray-500 ${className}`}/>;
     }
 }
 
