@@ -1,6 +1,7 @@
 import { AdminCols } from "../../../libs/constants/columns";
 import { Admin } from "../../../libs/models/admin";
 import { Meta } from "../../../libs/models/responses";
+import EmptyState from "../../shared/EmptyState";
 import Pagination from "../../shared/Pagination";
 import Table from "../../shared/Table";
 
@@ -15,8 +16,10 @@ type Props = {
 
 const AdminList: React.FC<Props> = ({ adminData, limit, meta, page, setLimit, setPage }) => {
     return <>
-        <Table<Admin> cols={AdminCols} rows={adminData} />
-        <Pagination
+        {adminData.length === 0
+            ? <EmptyState message="No admins found" />
+            : <Table<Admin> cols={AdminCols} rows={adminData} />}
+        {meta.total > 0 && <Pagination
             setLimit={setLimit}
             setPage={setPage}
             limit={limit}
@@ -24,7 +27,7 @@ const AdminList: React.FC<Props> = ({ adminData, limit, meta, page, setLimit, se
             length={adminData.length}
             total={meta.total}
             totalPage={meta.totalPage}
-        />
+        />}
     </>
 }
 

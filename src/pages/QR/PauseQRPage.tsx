@@ -33,7 +33,7 @@ const PauseQRPage = () => {
           <h3>Paused QR Code ({meta.total})</h3>
         </div>
       </div>
-      <QrList list={qrData} limit={limit} meta={meta} page={page} setLimit={setLimit} setPage={setPage} />
+      <QrList list={qrData} limit={limit} meta={meta} page={page} setLimit={setLimit} setPage={setPage} emptyMessage="No paused QR codes" />
     </>
   }
 

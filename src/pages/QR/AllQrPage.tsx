@@ -39,14 +39,14 @@ const AllQrPage = () => {
             <h3>Total QR Code ({meta.total})</h3>
           </div>
           <div>
-            <QrSearch onSearch={(val) => setSearchQuery(val)} />
+            <QrSearch onSearch={(val) => { setSearchQuery(val); setPage(1); }} />
           </div>
         </div>
         <Link to={`/${RoutesPath.CREATE}`}>
           <Button label="Create QR Code" type={BUTTON_TYPE.BUTTON} />
         </Link>
       </div>
-      <QrList list={qrData} limit={limit} meta={meta} page={page} setLimit={setLimit} setPage={setPage} />
+      <QrList list={qrData} limit={limit} meta={meta} page={page} setLimit={setLimit} setPage={setPage} emptyMessage={searchQuery ? "No QR codes match your search" : "No QR codes yet"} />
     </>
   }
 
