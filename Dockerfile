@@ -16,6 +16,10 @@ COPY . .
 ARG REACT_APP_API_URL
 ENV REACT_APP_API_URL=$REACT_APP_API_URL
 
+# Build argument for app URL
+ARG REACT_APP_APP_URL
+ENV REACT_APP_APP_URL=$REACT_APP_APP_URL
+
 # Build the app
 RUN npm run build
 

@@ -33,7 +33,7 @@ Two environment variables live in a gitignored `.env`, and CRA inlines them at b
 - `REACT_APP_API_URL`: backend base URL, also used to build media and QR image URLs.
 - `REACT_APP_APP_URL`: this app's public URL, used for the scan link in `QrListItem`.
 
-Docker builds need `--build-arg REACT_APP_API_URL=...`. The Dockerfile has no build arg for `REACT_APP_APP_URL`, so on a checkout without `.env` the scan links render as `undefined/<qrId>`.
+Docker builds need both `--build-arg REACT_APP_API_URL=...` and `--build-arg REACT_APP_APP_URL=...`. The Dockerfile always sets both as `ENV`, so a missing build arg comes through empty and a `.env` in the build context does not fill it in.
 
 ## Architecture
 
@@ -95,5 +95,5 @@ Things to know about this form:
 
 ## Deployment
 
-- `Dockerfile`: multi-stage build (Node 18, then nginx). `nginx.conf` handles the SPA fallback and listens on port 80, although the Dockerfile says `EXPOSE 3000`, so map to container port 80.
+- `Dockerfile`: multi-stage build (Node 18, then nginx). `nginx.conf` handles the SPA fallback and listens on port 80, so map to container port 80.
 - `buildspec.yml`: AWS CodeBuild on Node 20, publishing `build/` as the artifact.
